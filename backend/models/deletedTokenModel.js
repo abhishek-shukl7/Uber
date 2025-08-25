@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const tokenModelSchema = new mongoose.Schema({
+const deletedTokenSchema = new mongoose.Schema({
     token : {
         type: String,
         required: true,
@@ -13,4 +13,4 @@ const tokenModelSchema = new mongoose.Schema({
     }   
 });
 
-module.exports = mongoose.model('tokenModel',tokenModelSchema);
+module.exports = mongoose.model('deletedToken',deletedTokenSchema);

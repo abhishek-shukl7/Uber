@@ -89,7 +89,7 @@ module.exports.confirmRide = async ({ rideId, driver}) => {
     return ride;
 }
 
-module.exports.startRide = async ({ rideId,otp, driver}) => {
+module.exports.startRide = async ({ rideId,otp}) => {
     if (!rideId || !otp) {
         throw new Error('Ride Id or OTP is missing.');
     }

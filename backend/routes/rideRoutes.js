@@ -27,7 +27,7 @@ router.post('/confirm',
 
 router.post('/startRide',
     authMiddleware.checkDriver,
-    body('rideId').isMongoId().withMessage('Invalid ride Id.'),
+    query('rideId').isMongoId().withMessage('Invalid ride Id.'),
     query('otp').isString().isLength({min : 6, max: 6}).withMessage('Invalid OTP'),
     rideController.startRide
 );

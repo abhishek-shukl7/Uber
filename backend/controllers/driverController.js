@@ -1,7 +1,7 @@
 const { validationResult } = require("express-validator");
 const driverModel = require("../models/driverModel");
 const driverService = require("../services/driverService");
-const blackListTokenModel = require("../models/tokenModel");
+const blackListTokenModel = require("../models/deletedTokenModel");
 
 module.exports.getDriver = async (req,res,next) => {
     res.status(200).json(req.driver);

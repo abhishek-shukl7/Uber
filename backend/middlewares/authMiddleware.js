@@ -1,6 +1,6 @@
 const userModel = require("../models/userModel");
 const driverModel = require("../models/driverModel");
-const blackListtokenModel = require("../models/tokenModel");
+const blackListtokenModel = require("../models/deletedTokenModel");
 const jwt = require("jsonwebtoken");
 
 module.exports.checkUser = async (req,res,next) => {
