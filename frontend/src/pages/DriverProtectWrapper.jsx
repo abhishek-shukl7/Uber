@@ -1,33 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { UserDataContext } from "../context/UserContext";
+import { DriverDataContext } from "../context/DriverContext";
 import axios from 'axios';
 
-const UserProtectWrapper = ({ children }) => {
+const DriverProtectWrapper = ({ children }) => {
 
     const token = localStorage.getItem('token');
     const navigate = useNavigate();
-    const { user , setUser } = useContext(UserDataContext);
+    const { driver , setDriver } = useContext(DriverDataContext);
     const [ isLoading , setIsLoading ] = useState(true);
 
     useEffect(() => {
         if(!token){
-            navigate('/signin');
+            navigate('/driver/login');
         }
 
-        axios.get(`${import.meta.env.VITE_BASE_URL}/users/getuser`,{
+        axios.get(`${import.meta.env.VITE_BASE_URL}/driver/getdriver`,{
             headers : {
                 Authorization: `Bearer ${token}`
             }
         }).then(response => {
             if(response.status == 200){
-                setUser(response.data)
+                setDriver(response.data)
                 setIsLoading(false)
             }
         }).catch(error => {
             console.log(err)
             localStorage.removeItem('token')
-            navigate('/signin')
+            navigate('/driver/signin')
         })
     }, [ token ]);
 
@@ -44,4 +44,4 @@ const UserProtectWrapper = ({ children }) => {
     )
 };
 
-export default UserProtectWrapper;
+export default DriverProtectWrapper;

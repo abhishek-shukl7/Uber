@@ -1,17 +1,29 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom'
 import Home from './pages/Home'
+import Start from './pages/Start'
+
+import DriverProtectWrapper from './pages/DriverProtectWrapper'
+import DriverSignup from './pages/DriverSignup'
+import DriverSignin from './pages/DriverSignin'
+import DriverLogout from './pages/DriverLogout'
+
 import UserSignup from './pages/UserSignup'
 import UserSignin from './pages/UserSignin'
-// import UserLogout from './pages/UserLogout'
+import UserLogout from './pages/UserLogout'
 import UserProtectWrapper from './pages/userProtectWrapper'
-import 'remixicon/fonts/remixicon.css'
-import UserLogout from './pages/UserLogout';
 
+import 'remixicon/fonts/remixicon.css'
 const App = () => {
     return (
         <div>
             <Routes>
+
+                <Route path='/'
+                    element={
+                        <Start />
+                    } />
+
                 <Route path='/home'
                     element={
                         <UserProtectWrapper>
@@ -33,7 +45,21 @@ const App = () => {
                             <UserLogout />
                         </UserProtectWrapper>
                     } />
-                    
+                
+                <Route path='/driver/signup'
+                    element={
+                        <DriverSignup />
+                    } />
+                <Route path='/driver/signin'
+                    element={
+                        <DriverSignin />
+                    } />
+                <Route path='/driver/logout'
+                    element={
+                        <DriverProtectWrapper>
+                            <DriverLogout />
+                        </DriverProtectWrapper>
+                    } />
             </Routes>
         </div>
         
