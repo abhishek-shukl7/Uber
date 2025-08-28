@@ -7,10 +7,12 @@ import DriverProtectWrapper from './pages/DriverProtectWrapper'
 import DriverSignup from './pages/DriverSignup'
 import DriverSignin from './pages/DriverSignin'
 import DriverLogout from './pages/DriverLogout'
+import DriverHome from './pages/DriverHome'
 
 import UserSignup from './pages/UserSignup'
 import UserSignin from './pages/UserSignin'
 import UserLogout from './pages/UserLogout'
+import UserRiding from './pages/UserRiding'
 import UserProtectWrapper from './pages/userProtectWrapper'
 
 import 'remixicon/fonts/remixicon.css'
@@ -45,6 +47,10 @@ const App = () => {
                             <UserLogout />
                         </UserProtectWrapper>
                     } />
+                <Route path='/user/riding'
+                    element={
+                        <UserRiding />
+                    } />
                 
                 <Route path='/driver/signup'
                     element={
@@ -58,6 +64,14 @@ const App = () => {
                     element={
                         <DriverProtectWrapper>
                             <DriverLogout />
+                        </DriverProtectWrapper>
+                    } />
+
+                <Route path='/driver/home'
+                    element={
+                        <DriverProtectWrapper>
+                            <DriverHome />
+                      
                         </DriverProtectWrapper>
                     } />
             </Routes>
