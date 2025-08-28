@@ -13,6 +13,7 @@ const UserProtectWrapper = ({ children }) => {
     useEffect(() => {
         if(!token){
             navigate('/signin');
+            return;
         }
 
         axios.get(`${import.meta.env.VITE_BASE_URL}/users/getuser`,{
@@ -31,7 +32,7 @@ const UserProtectWrapper = ({ children }) => {
         })
     }, [ token ]);
 
-    if(isLoading){
+    if(isLoading || !user){
         return (
             <div>Loading....</div>
         );

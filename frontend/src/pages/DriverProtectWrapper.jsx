@@ -13,6 +13,7 @@ const DriverProtectWrapper = ({ children }) => {
     useEffect(() => {
         if(!token){
             navigate('/driver/login');
+            return ;
         }
 
         axios.get(`${import.meta.env.VITE_BASE_URL}/driver/getdriver`,{
@@ -31,7 +32,7 @@ const DriverProtectWrapper = ({ children }) => {
         })
     }, [ token ]);
 
-    if(isLoading){
+    if(isLoading || !driver){
         return (
             <div>Loading....</div>
         );

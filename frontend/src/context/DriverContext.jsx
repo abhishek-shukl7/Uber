@@ -17,11 +17,11 @@ const DriverContext = ({ children }) => {
         updateDriver
      };
     return (
-        <div>
+        
             <DriverDataContext.Provider value={value}>
                 {children}
             </DriverDataContext.Provider>
-        </div>
+        
         
     )
 }

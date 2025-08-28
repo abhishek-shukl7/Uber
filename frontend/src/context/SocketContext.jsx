@@ -3,26 +3,23 @@ import { io } from 'socket.io-client'
 
 export const SocketContext = createContext()
 
-const socket = io(`${import.meta.env.VITE_BASE_URL}`)
+const socket = io(`${import.meta.env.VITE_BASE_URL}`);
 
 const SocketProvider = ({ children }) => {
-
     useEffect(() => {
-        socket.io('connect',() => {
+        socket.on('connect',() => {
             console.log('socket connected to server');
         })
-        socket.io('disconnected',() => {
+        socket.on('disconnect',() => {
             console.log('socket disconnected to server');
         })
     },[]);
 
     return (
-        <div>
-            <SocketContext.Provider value={socket}>
+       
+            <SocketContext.Provider value={{socket}}>
                 {children}
             </SocketContext.Provider>
-        </div>
-        
     )
 }
 

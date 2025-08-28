@@ -42,12 +42,13 @@ const LiveTracking = () => {
     },[]);
     return (
         <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
-            <GoogleMap>
+            <GoogleMap
                 mapContainerStyle={containerStyle}
                 center = {currentPosition}
-                zoom={15}
+                zoom={15} >
+                <Marker position={currentPosition}/>
             </GoogleMap>
-            <Marker position={currentPosition}/>
+            
         </LoadScript>
     );
 }

@@ -14,7 +14,7 @@ createRoot(document.getElementById('root')).render(
             <UserContext> 
                 <SocketProvider>  
                     <BrowserRouter>
-                        <App/>
+                        <App />
                     </BrowserRouter>
                 </SocketProvider> 
             </UserContext>
