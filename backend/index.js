@@ -35,6 +35,6 @@ app.use('/api/rides',rideRoutes);
 app.use('/api/driver',driverRoutes);
 app.use('/api/map',mapRoutes);
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
