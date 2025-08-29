@@ -17,7 +17,7 @@ module.exports.getFare = async (req,res,next) => {
         const fare = await rideService.getFare(pickup,destination);
         return res.status(200).json(fare);
     } catch(err){
-        res.status(404).json({ message: "Route Not Found."});
+        return res.status(404).json({ message: "Route Not Found."});
     }
 }
 
@@ -61,7 +61,7 @@ module.exports.confirmRide = async (req,res,next) => {
 
     try{
         const ride = await rideService.confirmRide({rideId, driver: req.driver});
-        res.status(200).json(ride);
+        return res.status(200).json(ride);
     }catch(err){
         console.log(err);
         return res.status(500).json({message: err.message})
@@ -100,7 +100,22 @@ module.exports.endRide = async (req,res,next) => {
             event: 'ride-ended',
             data: ride
         });
-        res.status(200).json(ride);
+        return res.status(200).json(ride);
+    }catch(err){
+        console.log(err);
+        return res.status(500).json({message: err.message})
+    }
+}
+
+module.exports.driverRides = async (req,res,next) => {
+    const errors = validationResult(req);
+    if(!errors.isEmpty()){  
+        return res.status(400).json({errors: errors.array() });  
+    }
+    try{
+        const driverRides = await rideService.driverRides({driverId:req.driver._id});
+        return res.status(200).json(driverRides);
+        
     }catch(err){
         console.log(err);
         return res.status(500).json({message: err.message})

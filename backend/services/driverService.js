@@ -1,9 +1,9 @@
 const driverModel = require('../models/driverModel');
 
 module.exports.createDriver = async ({
-    firstname,lastname,email,password,color,plate,capacity,vehicleType
+    firstname,lastname,email,password,color,plate,capacity,vehicleType,vehicleName
 }) => {
-    if(!firstname || !lastname || !password || !color || !plate || !capacity || !vehicleType){
+    if(!firstname || !lastname || !password || !color || !plate || !capacity || !vehicleType || !vehicleName){
         throw new Error('Required fields are missing.');
     }
 
@@ -18,7 +18,8 @@ module.exports.createDriver = async ({
             color,
             plate,
             capacity,
-            vehicleType
+            vehicleType,
+            vehicleName
         }
     });
 

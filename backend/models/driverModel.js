@@ -53,6 +53,11 @@ const driverSchema = new mongoose.Schema({
             type: String,
             required: true,
             enum: [ 'car', 'motorcycle', 'auto' ],
+        },
+        vehicleName: {
+            type: String,
+            required: true,
+            minlength: [ 3, 'Plate must be at least 3 characters long' ],
         }
     },
 

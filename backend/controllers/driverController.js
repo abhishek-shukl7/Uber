@@ -29,8 +29,11 @@ module.exports.createDriver = async (req,res,next) => {
         color: vehicle.color,
         plate: vehicle.plate,
         capacity: vehicle.capacity,
-        vehicleType: vehicle.vehicleType
+        vehicleType: vehicle.vehicleType,
+        vehicleName: vehicle.vehicleName
     });
+
+    // console.log(driver);
 
     const token = driver.generateAuthToken();
 

@@ -38,4 +38,9 @@ router.post('/endRide',
     rideController.endRide
 );
 
+
+router.post('/driver-rides',
+    authMiddleware.checkDriver,
+    rideController.driverRides
+);
 module.exports = router;

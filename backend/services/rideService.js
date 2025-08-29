@@ -145,3 +145,15 @@ module.exports.endRide = async ({ rideId,driver}) => {
 
     return ride;
 }
+
+module.exports.driverRides = async ({driverId}) => {
+    if (!driverId) {
+        throw new Error('All fields are required');
+    }
+
+    const driverRides = await rideModel.find({
+        driver: driverId
+    });
+    
+    return driverRides;
+}
