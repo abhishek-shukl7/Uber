@@ -13,7 +13,7 @@ const DriverLogout = () => {
     }).then((response) => {
         if(response.status == 200){
             localStorage.removeItem('token');
-            navigate('/driver/singin');
+            navigate('/driver/signin');
         }
     });
 

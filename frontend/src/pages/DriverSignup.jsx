@@ -13,6 +13,7 @@ const DriverSignup = () => {
     const [ vehiclePlate,setVehiclePlate ] = useState('');
     const [ vehicleCapacity,setVehicleCapacity ] = useState('');
     const [ vehicleType,setVehicleType ] = useState('');
+    const [ vehicleName,setVehicleName ] = useState('');
 
     const [ driverdata, setDriverData ] = useState({});
 
@@ -33,9 +34,12 @@ const DriverSignup = () => {
                 capacity: vehicleCapacity,
                 color: vehicleColor,
                 plate: vehiclePlate,
-                vehicleType: vehicleType
+                vehicleType: vehicleType,
+                vehicleName: vehicleName
             },
         };
+
+        // console.log(newUser);
 
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/driver/register`,newUser);
 
@@ -54,6 +58,7 @@ const DriverSignup = () => {
         setVehiclePlate('');
         setVehicleCapacity('');
         setVehicleType('');
+        setVehicleName('');
     }
 
     return (
@@ -159,6 +164,18 @@ const DriverSignup = () => {
                                 <option value="auto">Auto</option>
                                 <option value="motorcycle">Motorcycle</option>
                             </select>
+                        </div>
+                        <div className='flex gap-4 mb-7'>
+                            <input 
+                                required
+                                placeholder='Vehicle Name'
+                                type='text'
+                                className='bg-[#eeeeee] w-1/2 rounded-lg px-4 py-2 border text-lg placeholder:text-base'
+                                value={vehicleName}
+                                onChange={(e) => {
+                                    setVehicleName(e.target.value)
+                                }}
+                            />
                         </div>
 
                         <button

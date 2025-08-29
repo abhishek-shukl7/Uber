@@ -13,7 +13,7 @@ import UserSignup from './pages/UserSignup'
 import UserSignin from './pages/UserSignin'
 import UserLogout from './pages/UserLogout'
 import UserRiding from './pages/UserRiding'
-import UserProtectWrapper from './pages/userProtectWrapper'
+import UserProtectWrapper from './pages/UserProtectWrapper'
 
 import 'remixicon/fonts/remixicon.css'
 const App = () => {
