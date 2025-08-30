@@ -1,7 +1,8 @@
 const { validationResult } = require("express-validator");
 const userModel = require("../models/userModel");
 const userService = require("../services/userService");
-const blackListTokenModel = require("../models/deletedTokenModel");
+// const blackListTokenModel = require("../models/deletedTokenModel");
+const redisClient = require("../config/redis");
 
 module.exports.getUser = async (req,res,next) => {
     res.status(200).json(req.user);
@@ -29,7 +30,7 @@ module.exports.createUser = async (req,res,next) => {
     });
 
     const token = user.generateAuthToken();
-
+    await redisClient.setEx(`auth:${user._id}`,86400,JSON.stringify(user));
     return res.status(200).json({token,user});
 }
 
@@ -38,34 +39,23 @@ module.exports.login = async (req,res,next)=> {
     if(!errors.isEmpty()){
         return res.status(400).json({ errors: errors.array()} );
     }
-
     const { email , password } = req.body;
-    
     const user = await userModel.findOne({email}).select('+password');
-
     if(!user){
         return res.status(401).json({message : 'Invalid email or password' });
     }
-
     const matchPwd = await user.comparePwd(password);
     if(!matchPwd){
         return res.status(401).json({message : 'Invalid email or password' });
     }
-
     const token = user.generateAuthToken();
-
-    res.cookie('token',token);
-
+    await redisClient.setEx(`auth:${user._id}`,86400,JSON.stringify(user));
     return res.status(200).json({token,user});
 }
 
 module.exports.logout = async(req,res,next) => {
-    // res.clearCookie('token');
-    // const token = req.cookes.token || req.headers.authorization?.split(' ')[1];
-    const token = req.headers.authorization?.split(' ')[1];
-
-    await blackListTokenModel.create({ token });
-
+    // const token = req.headers.authorization?.split(' ')[1];
+    await redisClient.del(`auth:${req.user._id}`);
     res.status(200).json({message : 'Logged out'});
     
 }

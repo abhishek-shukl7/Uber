@@ -1,7 +1,8 @@
 const { validationResult } = require("express-validator");
 const driverModel = require("../models/driverModel");
 const driverService = require("../services/driverService");
-const blackListTokenModel = require("../models/deletedTokenModel");
+// const blackListTokenModel = require("../models/deletedTokenModel");
+const redisClient = require("../config/redis");
 
 module.exports.getDriver = async (req,res,next) => {
     res.status(200).json(req.driver);
@@ -33,9 +34,8 @@ module.exports.createDriver = async (req,res,next) => {
         vehicleName: vehicle.vehicleName
     });
 
-    // console.log(driver);
-
     const token = driver.generateAuthToken();
+    await redisClient.setEx(`auth:${driver._id}`,86400,JSON.stringify(driver));
 
     return res.status(200).json({token,driver});
 }
@@ -61,17 +61,18 @@ module.exports.loginDriver = async (req,res,next)=> {
 
     const token = driver.generateAuthToken();
 
-    res.cookie('token',token);
+    await redisClient.setEx(`auth:${driver._id}`,86400,JSON.stringify(driver));
+    // res.cookie('token',token);
 
     return res.status(200).json({token,driver});
 }
 
 module.exports.logoutDriver = async(req,res,next) => {
-    // res.clearCookie('token');
-    // const token = req.cookes.token || req.headers.authorization?.split(' ')[1];
+
     const token = req.headers.authorization?.split(' ')[1];
 
-    await blackListTokenModel.create({ token });
+    // await blackListTokenModel.create({ token });
+    await redisClient.del(`auth:${req.driver._id}`);
 
     res.status(200).json({message : 'Logged out'});
     
