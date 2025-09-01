@@ -10,11 +10,11 @@ module.exports.checkUser = async (req,res,next) => {
         return res.status(401).json({ message : 'Unauthorized token' });
     }
     const decoded = jwt.verify(token,process.env.JWT);
-    const user = await redisClient.get(`auth:${user._id}`);
+    const user = await redisClient.get(`auth:${req.user._id}`);
     if(user){
         req.user = JSON.parse(user);
         return next();
-    }
+    }   
     try{
         const user = await userModel.findById(decoded._id);
         req.user = user;
