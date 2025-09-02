@@ -19,9 +19,13 @@ const UserProtectWrapper = ({ children }) => {
         axios.get(`${import.meta.env.VITE_BASE_URL}/users/getuser`,{
             headers : {
                 Authorization: `Bearer ${token}`
+            },
+            validateStatus: (status) => {
+                return status === 200 || status === 201 || status === 304;
             }
         }).then(response => {
-            if(response.status == 200 || response.status == 201 || response.status == 304){
+            if(response.status == 200 || response.status == 201){
+                console.log("get user api",response.data);
                 setUser(response.data)
                 setIsLoading(false)
             }

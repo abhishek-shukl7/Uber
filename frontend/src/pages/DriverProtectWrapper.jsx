@@ -19,9 +19,12 @@ const DriverProtectWrapper = ({ children }) => {
         axios.get(`${import.meta.env.VITE_BASE_URL}/driver/getdriver`,{
             headers : {
                 Authorization: `Bearer ${token}`
+            },
+            validateStatus: (status) => {
+                return status === 200 || status === 201 || status === 304;
             }
         }).then(response => {
-            if(response.status == 200 || response.status == 201 || response.status == 304){
+            if(response.status == 200 || response.status == 201){
                 setDriver(response.data)
                 setIsLoading(false)
             }
