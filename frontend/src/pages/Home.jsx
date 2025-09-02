@@ -197,6 +197,7 @@ const Home = () => {
                 });
                 // console.log(response);
                 setRide(response.data);
+                return response.data;
             }catch(err){
                 console.log("error in getting fare.");
             }
@@ -293,8 +294,9 @@ const Home = () => {
                 destination={destination}
                 fare={fare}
                 vehicleFound={vehicleFound}
-                createRide={createRide}
-                setVehicleFound={setVehicleFound}
+                vehicleType={vehicleType}
+                // createRide={createRide}
+                // setVehicleFound={setVehicleFound}
                 />
             </div>
 
