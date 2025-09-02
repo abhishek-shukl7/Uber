@@ -25,7 +25,11 @@ const UserSignup = () => {
             email: email
         };
 
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,{
+            validateStatus: (status) => {
+                return status >= 200 && status < 300 || status === 304;
+            }
+        },newUser);
 
         if(response.status == 200){
             const data = response.data;

@@ -19,6 +19,9 @@ const UserProtectWrapper = ({ children }) => {
         axios.get(`${import.meta.env.VITE_BASE_URL}/users/getuser`,{
             headers : {
                 Authorization: `Bearer ${token}`
+            },
+            validateStatus: (status) => {
+                return status >= 200 && status < 300 || status === 304;
             }
         }).then(response => {
             if(response.status == 200){

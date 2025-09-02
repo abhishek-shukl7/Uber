@@ -12,13 +12,16 @@ const DriverProtectWrapper = ({ children }) => {
 
     useEffect(() => {
         if(!token){
-            navigate('/driver/login');
+            navigate('/driver/signin');
             return ;
         }
 
         axios.get(`${import.meta.env.VITE_BASE_URL}/driver/getdriver`,{
             headers : {
                 Authorization: `Bearer ${token}`
+            },
+            validateStatus: (status) => {
+                return status >= 200 && status < 300 || status === 304;
             }
         }).then(response => {
             if(response.status == 200){
