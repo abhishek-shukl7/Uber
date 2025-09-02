@@ -17,6 +17,7 @@ const WaitingForDriver= (props) => {
                 </div>
             </div>
 
+
                 <div className='w-full mt-5'>
                     <div className='flex items-center gap-5 p-3 border-b-2'>
                         <i className="ri-map-pin-user-fill"></i>
