@@ -25,7 +25,6 @@ const UserProtectWrapper = ({ children }) => {
             }
         }).then(response => {
             if(response.status == 200 || response.status == 201){
-                console.log("get user api",response.data);
                 setUser(response.data)
                 setIsLoading(false)
             }
@@ -34,7 +33,7 @@ const UserProtectWrapper = ({ children }) => {
             localStorage.removeItem('token')
             navigate('/signin')
         })
-    }, [ token ]);
+    }, [ token,navigate, setUser ]);
 
     if(isLoading || !user){
         return (
