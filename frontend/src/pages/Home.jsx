@@ -195,11 +195,12 @@ const Home = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-        }catch(err){
-            console.log("error in getting fare.");
-        }
-        console.log(response);
-        setRide(response.data);
+                // console.log(response);
+                setRide(response.data);
+            }catch(err){
+                console.log("error in getting fare.");
+            }
+            
     }
 
     return (
