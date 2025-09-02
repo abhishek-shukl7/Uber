@@ -16,7 +16,7 @@ const ConfirmRidePopUp = (props) => {
             }
         })
 
-        if(response.status == 200){
+        if(response.status == 200 || response.status == 201 || response.status == 304){
             props.setConfirmRidePopupPanel(false)
             props.setRidePopupPanel(false)
             navigate('/driver/riding',{ state : { ride: props.ride }})

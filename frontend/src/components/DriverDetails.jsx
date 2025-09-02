@@ -17,7 +17,7 @@ const DriverDetails = () => {
                 }
             );
             // console.log(response);
-            if(response.status == 200 && response.data.length > 0){
+            if((response.status == 200 || response.status == 201 || response.status == 304) && response.data.length > 0){
                 // const data = await response.json();
                 setTotalRides(response.data.length)
                 let earned = 0;

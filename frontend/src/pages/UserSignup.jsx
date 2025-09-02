@@ -25,13 +25,9 @@ const UserSignup = () => {
             email: email
         };
 
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,{
-            validateStatus: (status) => {
-                return status >= 200 && status < 300 || status === 304;
-            }
-        },newUser);
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/users/register`,newUser);
 
-        if(response.status == 200){
+        if(response.status == 200 || response.status == 201 || response.status == 304){
             const data = response.data;
             setUser(data.user);
             localStorage.setItem('token',data.token);

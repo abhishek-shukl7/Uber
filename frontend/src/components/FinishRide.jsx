@@ -14,7 +14,7 @@ const FinishRide = (props) => {
             }
         })
 
-        if(response.status == 200){
+        if(response.status == 200 || response.status == 201 || response.status == 304){
             navigate('/driver/home')
         }
     }

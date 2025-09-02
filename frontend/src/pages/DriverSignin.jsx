@@ -21,12 +21,13 @@ const DriverSignin = () => {
         };
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/driver/login`,driverData);
 
-        if(response.status == 200){
+        if(response.status == 200 || response.status == 201 || response.status == 304){
             const data = response.data;
             setDriver(data.driver);
             localStorage.setItem('token',data.token);
             navigate('/driver/home');   
         }
+        
         setEmail('');
         setPassword('');
     };
