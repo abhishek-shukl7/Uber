@@ -38,7 +38,11 @@ const LiveTracking = () => {
             { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
 
-        return navigator.geolocation.clearWatch(watchId);
+        return () => {
+            if (watchId && navigator.geolocation && typeof navigator.geolocation.clearWatch === 'function') {
+                navigator.geolocation.clearWatch(watchId);
+            }
+        };
     },[]);
     return (
         <LoadScript googleMapsApiKey={import.meta.env.VITE_GOOGLE_MAPS_API_KEY}>
