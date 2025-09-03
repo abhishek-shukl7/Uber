@@ -98,7 +98,7 @@ const UserSignup = () => {
                         className='bg-[#111] text-white font-semibold mb-3 rounded-lg px-4 py-2 w-full text-lg placeholder:text-base'
                         >Create account</button>
                     </form>
-                    <p className='text-center'>Already have a account? <Link to='/login' className='text-blue-600'>Login here</Link></p>
+                    <p className='text-center'>Already have a account? <Link to='/signin' className='text-blue-600'>Login here</Link></p>
                 </div>
                 <div>
                     <p className='text-[10px] leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy

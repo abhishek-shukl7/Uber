@@ -46,13 +46,9 @@ const Home = () => {
 
     const navigate = useNavigate();
 
-    console.log("user home page");
-
     useEffect(() => {
         socket.emit("join",{ userType: 'user' , userId: user._id})
     },[user])
-
-    console.log("user home page 1");
 
     socket.on("ride-confirmed", ride => {
         setVehicleFound(false)
@@ -65,8 +61,6 @@ const Home = () => {
         setWaitingForDriver(false)
         navigate('/riding',{ state: {ride} })
     })
-
-    console.log("user home page 2");
 
     const handlePickupChange = async (e) => {
         setPickup(e.target.value);
@@ -295,8 +289,8 @@ const Home = () => {
                 fare={fare}
                 vehicleFound={vehicleFound}
                 vehicleType={vehicleType}
-                // createRide={createRide}
-                // setVehicleFound={setVehicleFound}
+                createRide={createRide}
+                setVehicleFound={setVehicleFound}
                 />
             </div>
 
