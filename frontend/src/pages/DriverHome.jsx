@@ -27,6 +27,10 @@ const DriverHome = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        if (!socket) {
+            console.log("Driver Socket not connected yet.");
+            return
+        };
         socket.emit("join",{ userType: 'driver' , userId: driver._id})
         const updateLocation = () => {
             if(navigator.geolocation){
@@ -41,9 +45,9 @@ const DriverHome = () => {
 
         const locationInterval = setInterval(updateLocation,1000)
         updateLocation()
-
+        console.log("Driver Joined",driver._id);
         socket.on('new-ride',(data) => {
-            console.log("New Ride Request",data);
+            console.log("Driver New Ride Request",data);
             setRide(data)
             setRidePopupPanel(true)
         })

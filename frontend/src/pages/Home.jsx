@@ -47,10 +47,14 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!socket) return;
+        if (!socket) {
+            console.log("Socket not connected yet.");
+            return
+        };
         socket.emit("join", { userType: "user", userId: user._id });
 
         socket.on("new-ride", (ride) => {
+            console.log("New Ride Created", ride);
             setConfirmRidePanel(false);  
             setWaitingForDriver(false); 
             setVehicleFound(true);       
@@ -58,12 +62,14 @@ const Home = () => {
         });
 
         socket.on("ride-confirmed", (ride) => {
+             console.log("New Ride confirmed", ride);
             setVehicleFound(false);       
             setWaitingForDriver(true);   
             setRide(ride);
         });
 
         socket.on("ride-started", (ride) => {
+            console.log("New Ride started", ride);
             setWaitingForDriver(false);
             navigate("/riding", { state: { ride } });
         });
