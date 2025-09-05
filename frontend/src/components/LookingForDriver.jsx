@@ -34,7 +34,6 @@ const LookingForDriver= (props) => {
                     </div>
                 </div>
             </div>
-
         </div>
     );
 }

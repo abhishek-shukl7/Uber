@@ -41,12 +41,15 @@ const DriverHome = () => {
 
         const locationInterval = setInterval(updateLocation,1000)
         updateLocation()
-    },[])
 
-    socket.on('new-ride',(data) => {
+        socket.on('new-ride',(data) => {
+        console.log("New Ride Request",data);
         setRide(data)
         ridePopupPanel(true)
     })
+    },[])
+
+    
 
     async function confirmRide () {
         const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/confirm`,{

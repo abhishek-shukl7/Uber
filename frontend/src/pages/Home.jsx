@@ -47,20 +47,33 @@ const Home = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        socket.emit("join",{ userType: 'user' , userId: user._id})
-    },[user])
+        if (!socket) return;
+        socket.emit("join", { userType: "user", userId: user._id });
 
-    socket.on("ride-confirmed", ride => {
-        setVehicleFound(false)
-        setWaitingForDriver(true)
-        setRide(ride)
-    })
+        socket.on("new-ride", (ride) => {
+            setConfirmRidePanel(false);  
+            setWaitingForDriver(false); 
+            setVehicleFound(true);       
+            setRide(ride);                
+        });
 
-    socket.on("ride-started", ride => {
-        console.log("ride")
-        setWaitingForDriver(false)
-        navigate('/riding',{ state: {ride} })
-    })
+        socket.on("ride-confirmed", (ride) => {
+            setVehicleFound(false);       
+            setWaitingForDriver(true);   
+            setRide(ride);
+        });
+
+        socket.on("ride-started", (ride) => {
+            setWaitingForDriver(false);
+            navigate("/riding", { state: { ride } });
+        });
+
+        return () => {
+            socket.off("new-ride");
+            socket.off("ride-confirmed");
+            socket.off("ride-started");
+        };
+    }, [socket, user]);
 
     const handlePickupChange = async (e) => {
         setPickup(e.target.value);
@@ -189,8 +202,11 @@ const Home = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                console.log(response);
                 setRide(response.data);
+
+                setVehicleFound(true);
+                setVehiclePanel(false);
+                setWaitingForDriver(false);
                 return response.data;
             }catch(err){
                 console.log("error in getting fare.");
@@ -287,7 +303,6 @@ const Home = () => {
                 pickup={pickup}
                 destination={destination}
                 fare={fare}
-                vehicleFound={vehicleFound}
                 vehicleType={vehicleType}
                 createRide={createRide}
                 setVehicleFound={setVehicleFound}
@@ -304,8 +319,9 @@ const Home = () => {
             </div>
 
         </div>
-
+    
     )
+    
 }
 
 export default Home;

@@ -1,6 +1,7 @@
 import React from "react";
 
 const WaitingForDriver= (props) => {
+    if (!props.waitingForDriver) return null;
     return (
         <div>
             <h5 className='p-1 text-center w-[93%] absolute top-0' onClick={()=> {

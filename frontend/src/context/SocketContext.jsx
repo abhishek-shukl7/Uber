@@ -3,7 +3,10 @@ import { io } from 'socket.io-client'
 
 export const SocketContext = createContext()
 
-const socket = io(`${import.meta.env.VITE_BASE}`);
+const socket = io(`${import.meta.env.VITE_BASE}`,{
+  transports: ["websocket"],
+  withCredentials: true,
+});
 
 const SocketProvider = ({ children }) => {
     useEffect(() => {

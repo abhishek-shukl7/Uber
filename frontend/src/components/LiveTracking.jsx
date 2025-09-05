@@ -17,7 +17,6 @@ const LiveTracking = () => {
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition((position) => {
-            console.log('getCurrentPosition',position);
             const { latitude, longitude } = position.coords;
             setCurrentPosition({
                 lat: latitude,
@@ -38,7 +37,6 @@ const LiveTracking = () => {
             },
             { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
         );
-        console.log('Error getting geolocation.');
         return () => {
             if (watchId && navigator.geolocation && typeof navigator.geolocation.clearWatch === 'function') {
                 navigator.geolocation.clearWatch(watchId);
