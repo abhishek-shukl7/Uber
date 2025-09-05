@@ -24,12 +24,13 @@ const UserProtectWrapper = ({ children }) => {
                 return status === 200 || status === 201 || status === 304;
             }
         }).then(response => {
+            console.log('User data response',response);   
             if(response.status == 200 || response.status == 201){
                 setUser(response.data)
                 setIsLoading(false)
             }
         }).catch(error => {
-            console.log('API error',err)
+            console.log('API error',error)
             localStorage.removeItem('token')
             navigate('/signin')
         })
