@@ -8,6 +8,7 @@ import DriverSignup from './pages/DriverSignup'
 import DriverSignin from './pages/DriverSignin'
 import DriverLogout from './pages/DriverLogout'
 import DriverHome from './pages/DriverHome'
+import DriverRiding from './pages/DriverRiding'
 
 import UserSignup from './pages/UserSignup'
 import UserSignin from './pages/UserSignin'
@@ -71,6 +72,13 @@ const App = () => {
                     element={
                         <DriverProtectWrapper>
                             <DriverHome />
+                      
+                        </DriverProtectWrapper>
+                    } />
+                <Route path='/driver/riding'
+                    element={
+                        <DriverProtectWrapper>
+                            <DriverRiding />
                       
                         </DriverProtectWrapper>
                     } />

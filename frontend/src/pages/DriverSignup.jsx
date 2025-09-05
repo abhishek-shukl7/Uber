@@ -183,7 +183,7 @@ const DriverSignup = () => {
                         >Create Driver Account</button>
 
                     </form>
-                    <p className='text-center'>Already have a account? <Link to='/driver/login' className='text-blue-600'>Login here</Link></p>
+                    <p className='text-center'>Already have a account? <Link to='/driver/signin' className='text-blue-600'>Login here</Link></p>
                 </div>
                 <div>
                     <p className='text-[10px] leading-tight'>This site is protected by reCAPTCHA and the <span className='underline'>Google Privacy

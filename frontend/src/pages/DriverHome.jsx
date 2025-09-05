@@ -43,11 +43,11 @@ const DriverHome = () => {
         updateLocation()
 
         socket.on('new-ride',(data) => {
-        console.log("New Ride Request",data);
-        setRide(data)
-        ridePopupPanel(true)
-    })
-    },[])
+            console.log("New Ride Request",data);
+            setRide(data)
+            setRidePopupPanel(true)
+        })
+    },[socket])
 
     
 
