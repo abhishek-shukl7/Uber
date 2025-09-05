@@ -12,8 +12,8 @@ function initializeSocket(server){
         }
     });
 
+    try {
     io.on('connection',(socket) => {
-        console.log(`client connected : ${socket.id}`);
         socket.on('join',async (data) => {
             const { userId, userType } = data;
             if(userType == 'user'){
@@ -38,6 +38,9 @@ function initializeSocket(server){
             console.log(`client disconnected : ${socket.id}`);
         });
     })
+    } catch (error) {
+        console.log("Socket.io error: ", error);
+    }
 }
 
 const sendMessageToSocketId = ( socketId , messageObject) => {

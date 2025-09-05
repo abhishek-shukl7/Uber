@@ -189,7 +189,7 @@ const Home = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                     }
                 });
-                // console.log(response);
+                console.log(response);
                 setRide(response.data);
                 return response.data;
             }catch(err){

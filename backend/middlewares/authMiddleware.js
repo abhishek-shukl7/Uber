@@ -1,6 +1,5 @@
 const userModel = require("../models/userModel");
 const driverModel = require("../models/driverModel");
-// const blackListtokenModel = require("../models/deletedTokenModel");
 const jwt = require("jsonwebtoken");
 const redisClient = require("../config/redis");
 
@@ -38,7 +37,7 @@ module.exports.checkUser = async (req,res,next) => {
         try{
             const user = await userModel.findById(decoded._id);
             req.user = user;
-            await redisClient.setEx(`auth:${driver._id}`,86400,JSON.stringify(user));
+            await redisClient.setEx(`auth:${user._id}`,86400,JSON.stringify(user));
             return next();
         } catch(err){
             return res.status(401).json({ message: 'Unauthorized' });
