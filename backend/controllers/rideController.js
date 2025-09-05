@@ -32,11 +32,13 @@ module.exports.createRide = async (req,res) => {
     try{
         const ride = await rideService.createRide({user:req.user._id,pickup,destination,vehicleType});
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
-        const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,2);
+        // console.log('pickupCoordinates',pickupCoordinates);
+        const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,50);
+        console.log('driversInRadius',driversInRadius);
         const rideWithUser = await rideModel.findOne({ _id: ride._id}).populate('user');
-
+        // console.log('rideWithUser',rideWithUser);
         driversInRadius.map(driver => {
-            sendMessageToSocketId(driver.user.socketId,{
+            sendMessageToSocketId(driver.socketId,{
                 event: 'new-ride',
                 data: rideWithUser
             });
@@ -45,7 +47,7 @@ module.exports.createRide = async (req,res) => {
             event: 'new-ride',
             data: rideWithUser
         });
-        
+
         return res.status(201).json(ride);
     }catch(err){
         console.log(err);
@@ -75,7 +77,8 @@ module.exports.startRide = async (req,res,next) => {
     if(!errors.isEmpty()){  
         return res.status(400).json({errors: errors.array() });  
     }
-
+    console.log(req.query);
+    console.log(req.params);
     const { rideId,otp } = req.query;
 
     try{
