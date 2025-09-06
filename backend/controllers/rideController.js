@@ -34,15 +34,15 @@ module.exports.createRide = async (req,res) => {
         const ride = await rideService.createRide({user:req.user._id,pickup,destination,vehicleType});
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
         console.log('pickupCoordinates',pickupCoordinates);
-        await logModel.create({ logname: 'ride-log', log: pickupCoordinates });
+        await logModel.create({ logname: 'ride-log', log: JSON.stringify(pickupCoordinates) });
 
         const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,50);
         console.log('driversInRadius',driversInRadius);
-        await logModel.create({ logname: 'driversInRadius', log: driversInRadius });
+        await logModel.create({ logname: 'driversInRadius', log: JSON.stringify(driversInRadius) });
 
         const rideWithUser = await rideModel.findOne({ _id: ride._id}).populate('user');
         console.log('rideWithUser',rideWithUser);
-        await logModel.create({ logname: 'rideWithUser', log: rideWithUser });
+        await logModel.create({ logname: 'rideWithUser', log: JSON.stringify(rideWithUser) });
 
         driversInRadius.map(driver => {
             console.log('new-ride driver event',driver);

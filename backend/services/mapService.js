@@ -18,6 +18,7 @@ module.exports.getAddressCoordinates = async (address) => {
         }
     }catch(error){
         console.log(error);
+        await logModel.create({ logname: 'mapService getAddressCoordinates', log: JSON.stringify(error) });
         throw error;
     }
 }
