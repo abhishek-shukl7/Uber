@@ -7,7 +7,8 @@ const logSchema = new mongoose.Schema({
     log: {
         type: String,
         required: true,
-    }
+    },
+    timestamp: { type: Date, default: Date.now }
 });
 
 
