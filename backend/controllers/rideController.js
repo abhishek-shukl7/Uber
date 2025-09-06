@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const mapService = require("../services/mapService");
 const rideService = require("../services/rideService");
 const rideModel = require("../models/rideModel");
+const logModel = require("../models/logModel");
 const { sendMessageToSocketId } = require("../socket");
 
 
@@ -33,11 +34,18 @@ module.exports.createRide = async (req,res) => {
         const ride = await rideService.createRide({user:req.user._id,pickup,destination,vehicleType});
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
         console.log('pickupCoordinates',pickupCoordinates);
+        await logModel.create({ logname: 'ride-log', log: pickupCoordinates });
+
         const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,50);
         console.log('driversInRadius',driversInRadius);
+        await logModel.create({ logname: 'driversInRadius', log: driversInRadius });
+
         const rideWithUser = await rideModel.findOne({ _id: ride._id}).populate('user');
         console.log('rideWithUser',rideWithUser);
+        await logModel.create({ logname: 'rideWithUser', log: rideWithUser });
+
         driversInRadius.map(driver => {
+            console.log('new-ride driver event',driver);
             sendMessageToSocketId(driver.socketId,{
                 event: 'new-ride',
                 data: rideWithUser
@@ -65,6 +73,7 @@ module.exports.confirmRide = async (req,res,next) => {
 
     try{
         const ride = await rideService.confirmRide({rideId, driver: req.driver});
+        await logModel.create({ logname: 'confirmRide', log: ride });
         return res.status(200).json(ride);
     }catch(err){
         console.log(err);
