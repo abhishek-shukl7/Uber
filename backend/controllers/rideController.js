@@ -15,8 +15,8 @@ module.exports.getFare = async (req,res,next) => {
     const { pickup , destination } = req.query;
 
     try{
-        const fare = await rideService.getFare(pickup,destination);
-        return res.status(200).json(fare);
+        const data = await rideService.getFare(pickup,destination);
+        return res.status(200).json(data);
     } catch(err){
         return res.status(404).json({ message: "Route Not Found."});
     }
@@ -33,19 +33,9 @@ module.exports.createRide = async (req,res) => {
     try{
         const ride = await rideService.createRide({user:req.user._id,pickup,destination,vehicleType});
         const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
-        console.log('pickupCoordinates',pickupCoordinates);
-        await logModel.create({ logname: 'ride-log', log: JSON.stringify(pickupCoordinates) });
-
         const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,50);
-        console.log('driversInRadius',driversInRadius);
-        await logModel.create({ logname: 'driversInRadius', log: JSON.stringify(driversInRadius) });
-
         const rideWithUser = await rideModel.findOne({ _id: ride._id}).populate('user');
-        console.log('rideWithUser',rideWithUser);
-        await logModel.create({ logname: 'rideWithUser', log: JSON.stringify(rideWithUser) });
-
         driversInRadius.map(driver => {
-            console.log('new-ride driver event',driver);
             sendMessageToSocketId(driver.socketId,{
                 event: 'new-ride',
                 data: rideWithUser
@@ -74,6 +64,11 @@ module.exports.confirmRide = async (req,res,next) => {
     try{
         const ride = await rideService.confirmRide({rideId, driver: req.driver});
         await logModel.create({ logname: 'confirmRide', log: ride });
+        
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-confirmed',
+            data: ride
+        });
         return res.status(200).json(ride);
     }catch(err){
         console.log(err);
@@ -86,12 +81,20 @@ module.exports.startRide = async (req,res,next) => {
     if(!errors.isEmpty()){  
         return res.status(400).json({errors: errors.array() });  
     }
-    console.log(req.query);
-    console.log(req.params);
     const { rideId,otp } = req.query;
 
     try{
         const ride = await rideService.startRide({rideId,otp, driver: req.driver});
+
+        sendMessageToSocketId(ride.user.socketId, {
+            event: 'ride-started',
+            data: ride
+        }); 
+        sendMessageToSocketId(ride.driver.socketId, {
+            event: 'ride-started',
+            data: ride
+        }); 
+
         res.status(200).json(ride);
     }catch(err){
         console.log(err);

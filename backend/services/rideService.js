@@ -10,7 +10,7 @@ async function getFare(pickup,destination){
     }
 
     const distanceTime = await mapService.getDistanceTime(pickup,destination);
-
+    
     const base = {
         car: 50,
         moto: 20,
@@ -34,8 +34,23 @@ async function getFare(pickup,destination){
         car: Math.round(base.car + ((distanceTime.distance.value / 1000) * perkmRate.car) + ((distanceTime.duration.value / 60) * perMinuteRate.car)),
         moto: Math.round(base.moto + ((distanceTime.distance.value / 1000) * perkmRate.moto) + ((distanceTime.duration.value / 60) * perMinuteRate.moto))
     };
+    const nearestDriver = await getDriverDistanceTime(pickup);
+    // console.log('nearestDriver', nearestDriver);
+    const nearestDriverDetails = {};
+    for (const type of Object.keys(nearestDriver)) {
+        nearestDriverDetails[type] = {
+            name: nearestDriver[type]._doc.fullname.firstname + ' ' + nearestDriver[type]._doc.fullname.lastname,
+            capacity: nearestDriver[type]._doc.vehicle.capacity,
+            duration: nearestDriver[type].distanceTime.duration.text
+        };
+    }
 
-    return fare;
+    const result = {
+        nearestDriverDetails: nearestDriverDetails,
+        fare: fare
+    };
+
+    return result;
 }
 module.exports.getFare = getFare;
 
@@ -47,13 +62,63 @@ function getOtp(num) {
     return generateOtp(num);
 }
 
+async function getDriverDistanceTime(pickup) {
+    if(!pickup){
+        throw new Error('Pickup is missing.');
+    }
+
+    try{
+        const pickupCoordinates = await mapService.getAddressCoordinates(pickup);
+        const driversInRadius = await mapService.driversInRadius(pickupCoordinates.ltd,pickupCoordinates.lng,50);
+        const groupedDrivers = {
+            car: [],
+            auto: [],
+            moto: []
+        };
+
+        driversInRadius.forEach(driver => {
+            if (groupedDrivers[driver.vehicle.vehicleType]) {
+                groupedDrivers[driver.vehicle.vehicleType].push(driver);
+            }
+        });
+        const nearestDrivers = {};
+
+        for (const type of Object.keys(groupedDrivers)) {
+            let minDistance = Infinity;
+            let nearestDriver = null;
+
+            for (const driver of groupedDrivers[type]) {
+                const distanceTime = await mapService.getDriverDistanceTime(pickupCoordinates, driver.location);
+                // console.log('driver', driver, 'distanceTime', distanceTime);
+                if (distanceTime.distance.value < minDistance) {
+                    minDistance = distanceTime.distance.value;
+                    nearestDriver = { ...driver, distanceTime };
+                }
+            }
+            
+            if (nearestDriver) {
+                nearestDrivers[type] = nearestDriver;
+            }
+        }
+        
+        if(nearestDrivers){
+            return nearestDrivers;    
+        }else{
+            throw new Error('Unable to get driver distance time.');
+        }
+    }catch(error){
+        console.log(error);
+        throw error;
+    }
+}
 
 module.exports.createRide = async ({user,pickup,destination,vehicleType}) => {
     if (!user || !pickup || !destination || !vehicleType) {
         throw new Error('All fields are required');
     }
 
-    const fare = await getFare(pickup,destination);
+    const data = await getFare(pickup,destination);
+    const fare = data.fare;
     const ride = await rideModel.create({
         user,
         pickup,
