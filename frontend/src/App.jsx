@@ -42,13 +42,13 @@ const App = () => {
                     element={
                         <UserSignin />
                     } />
-                <Route path='/user/logout'
+                <Route path='/logout'
                     element={
                         <UserProtectWrapper>
                             <UserLogout />
                         </UserProtectWrapper>
                     } />
-                <Route path='/user/riding'
+                <Route path='/riding'
                     element={
                         <UserRiding />
                     } />

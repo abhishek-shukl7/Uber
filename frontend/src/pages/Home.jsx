@@ -42,6 +42,7 @@ const Home = () => {
     const [ waitingForDriver,setWaitingForDriver] = useState(false);
 
     const [ fare,setFare] = useState({});
+    const [ nearesetDriver,setNearesetDriver] = useState({});
     const [ ride,setRide] = useState(null); 
 
     const navigate = useNavigate();
@@ -72,6 +73,7 @@ const Home = () => {
             console.log("New Ride started", ride);
             setWaitingForDriver(false);
             navigate("/riding", { state: { ride } });
+            // navigate('/driver/riding',{ state : { ride: props.ride }})
         });
 
         return () => {
@@ -194,9 +196,11 @@ const Home = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            setFare(response.data);
+            console.log(response.data)
+            setFare(response.data.fare);
+            setNearesetDriver(response.data.nearestDriverDetails);
         }catch(err){
-            console.log("error in getting fare.");
+            console.log("error in getting fare.",err);
         }
     }
 
@@ -215,7 +219,7 @@ const Home = () => {
                 setWaitingForDriver(false);
                 return response.data;
             }catch(err){
-                console.log("error in getting fare.");
+                console.log("error in creating ride.");
             }
             
     }
@@ -288,6 +292,7 @@ const Home = () => {
                 setConfirmRidePanel={setConfirmRidePanel}
                 setVehicleType={setVehicleType}
                 fare={fare}
+                nearesetDriver={nearesetDriver}
                 setVehiclePanel={setVehiclePanel}
                 />
             </div>

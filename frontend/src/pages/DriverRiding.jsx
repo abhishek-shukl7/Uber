@@ -12,6 +12,7 @@ const DriverRiding = () => {
     const finishRidePanelRef= useRef(null)
     const location = useLocation()
     const ride = location.state?.ride
+     console.log('driver riding',ride);
 
     useGSAP(function () {
         if (finishRidePanel) {

@@ -8,10 +8,10 @@ import LiveTracking from '../components/LiveTracking';
 const UserRiding = () => {
 
     const location = useLocation()
-    const ride = location.state || {}
+    const { ride } = location.state || {}
     const navigate = useNavigate()
     const { socket } = useContext(SocketContext)
-
+    // console.log('user riding',ride);
     socket.on('ride-ended',() => {
         navigate('/home')
     })
@@ -30,8 +30,8 @@ const UserRiding = () => {
                     <img className='h-12' src="https://swyft.pl/wp-content/uploads/2023/05/how-many-people-can-a-uberx-take.jpg" alt="" />
                     <div className='text-right'>
                         <h2 className='text-lg font-medium capitalize'> {ride?.driver.fullname.firstname}</h2>
-                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.driver.vehicle.firstname}</h4>
-                        <p className='text-sm text-gray-600'>Maruti Suzuki Alto</p>
+                        <h4 className='text-xl font-semibold -mt-1 -mb-1'>{ride?.driver.vehicle.plate}</h4>
+                        <p className='text-sm text-gray-600'>{ride?.driver.vehicle.vehicleName}</p>
                     </div>
                 </div>
 
@@ -40,8 +40,8 @@ const UserRiding = () => {
                         <div className='flex items-center gap-5 p-3 border-b-2'>
                             <i className="text-lg ri-map-pin-2-fill"></i>
                             <div>
-                                <h3 className='text-lg font-medium'>562/11-A</h3>
-                                <p className='text-sm -mt-1 text-gray-600'>{ride?.destination}</p>
+                                <h3 className='text-lg font-medium'>{ride?.destination}</h3>
+                                {/* <p className='text-sm -mt-1 text-gray-600'>562/11-A</p> */}
                             </div>
                         </div>
                         <div className='flex items-center gap-5 p-3'>

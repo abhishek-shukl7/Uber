@@ -45,7 +45,6 @@ const DriverHome = () => {
 
         const locationInterval = setInterval(updateLocation,1000)
         updateLocation()
-        console.log("Driver Joined",driver._id);
         socket.on('new-ride',(data) => {
             console.log("Driver New Ride Request",data);
             setRide(data)
