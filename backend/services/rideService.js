@@ -10,6 +10,7 @@ async function getFare(pickup,destination){
     }
 
     const distanceTime = await mapService.getDistanceTime(pickup,destination);
+    // console.log('distanceTime', distanceTime);
     
     const base = {
         car: 50,
@@ -47,7 +48,9 @@ async function getFare(pickup,destination){
 
     const result = {
         nearestDriverDetails: nearestDriverDetails,
-        fare: fare
+        fare: fare,
+        distance:distanceTime.distance.value,
+        duration:distanceTime.duration.value
     };
 
     return result;
@@ -95,7 +98,6 @@ async function getDriverDistanceTime(pickup) {
                     nearestDriver = { ...driver, distanceTime };
                 }
             }
-            
             if (nearestDriver) {
                 nearestDrivers[type] = nearestDriver;
             }
@@ -118,11 +120,16 @@ module.exports.createRide = async ({user,pickup,destination,vehicleType}) => {
     }
 
     const data = await getFare(pickup,destination);
+    // console.log("data" , data);
     const fare = data.fare;
+    const distance = data.distance;
+    const duration = data.duration;
     const ride = await rideModel.create({
         user,
         pickup,
         destination,
+        distance,
+        duration,
         otp: getOtp(6),
         fare: fare[ vehicleType ]
     });
@@ -211,14 +218,15 @@ module.exports.endRide = async ({ rideId,driver}) => {
     return ride;
 }
 
-module.exports.driverRides = async ({driverId}) => {
+module.exports.driverDetails = async ({driverId}) => {
     if (!driverId) {
         throw new Error('All fields are required');
     }
 
-    const driverRides = await rideModel.find({
-        driver: driverId
+    const driverDetails = await rideModel.find({
+        driver: driverId,
+        status: { $ne: 'pending' || 'cancelled' }
     });
     
-    return driverRides;
+    return driverDetails;
 }
