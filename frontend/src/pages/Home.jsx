@@ -44,6 +44,7 @@ const Home = () => {
     const [ fare,setFare] = useState({});
     const [ nearesetDriver,setNearesetDriver] = useState({});
     const [ ride,setRide] = useState(null); 
+    const [ rideDistance,setRideDistance] = useState(null); 
 
     const navigate = useNavigate();
 
@@ -63,14 +64,14 @@ const Home = () => {
         });
 
         socket.on("ride-confirmed", (ride) => {
-             console.log("New Ride confirmed", ride);
+            //  console.log("New Ride confirmed", ride);
             setVehicleFound(false);       
             setWaitingForDriver(true);   
             setRide(ride);
         });
 
         socket.on("ride-started", (ride) => {
-            console.log("New Ride started", ride);
+            // console.log("New Ride started", ride);
             setWaitingForDriver(false);
             navigate("/riding", { state: { ride } });
             // navigate('/driver/riding',{ state : { ride: props.ride }})
@@ -196,8 +197,9 @@ const Home = () => {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            console.log(response.data)
+            // console.log(response.data)
             setFare(response.data.fare);
+            setRideDistance(response.data.distance);
             setNearesetDriver(response.data.nearestDriverDetails);
         }catch(err){
             console.log("error in getting fare.",err);
@@ -227,7 +229,9 @@ const Home = () => {
     return (
 
         <div className='h-screen relative overflow-hidden'>
+            
             <img className='w-16 absolute left-5 top-5' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
+            
             <div className='h-screen w-screen'>
                 <LiveTracking />
             </div>

@@ -1,6 +1,6 @@
-import React, { createContext, useState } from 'react'
+import React, { createContext, useState,useEffect } from 'react'
 
-export const DriverDataContext = createContext()
+export const DriverDataContext = createContext(null)
 
 
 const DriverContext = ({ children }) => {
@@ -11,11 +11,20 @@ const DriverContext = ({ children }) => {
         setDriver(driverData);
     };
 
+    useEffect(() => {
+            const token = localStorage.getItem('token');
+            if (token) {
+                setDriver(prev => ({ ...prev, isLoggedIn: true }));
+            }
+    }, []);
+
     const value = {
         driver,
         setDriver,
-        updateDriver
+        updateDriver,
+        isLoggedIn: driver?.isLoggedIn || false
      };
+
     return (
         
             <DriverDataContext.Provider value={value}>

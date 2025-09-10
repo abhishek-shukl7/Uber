@@ -1,5 +1,6 @@
 import React from 'react';
-import { Route, Routes } from 'react-router-dom'
+import { Route, Routes,Navigate } from 'react-router-dom'
+
 import Home from './pages/Home'
 import Start from './pages/Start'
 
@@ -15,6 +16,9 @@ import UserSignin from './pages/UserSignin'
 import UserLogout from './pages/UserLogout'
 import UserRiding from './pages/UserRiding'
 import UserProtectWrapper from './pages/UserProtectWrapper'
+
+import AuthRedirect from './components/AuthRedirect.jsx';
+import AuthDriverRedirect from './components/AuthDriverRedirect.jsx';
 
 import 'remixicon/fonts/remixicon.css'
 const App = () => {
@@ -36,11 +40,15 @@ const App = () => {
                 
                 <Route path='/signup'
                     element={
+                        <AuthRedirect>
                         <UserSignup />
+                        </AuthRedirect>
                     } />
                 <Route path='/signin'
                     element={
+                        <AuthRedirect>
                         <UserSignin />
+                        </AuthRedirect>
                     } />
                 <Route path='/logout'
                     element={
@@ -55,11 +63,15 @@ const App = () => {
                 
                 <Route path='/driver/signup'
                     element={
+                        <AuthDriverRedirect>
                         <DriverSignup />
+                        </AuthDriverRedirect>
                     } />
                 <Route path='/driver/signin'
                     element={
+                        <AuthDriverRedirect>
                         <DriverSignin />
+                        </AuthDriverRedirect>
                     } />
                 <Route path='/driver/logout'
                     element={
@@ -82,6 +94,9 @@ const App = () => {
                       
                         </DriverProtectWrapper>
                     } />
+
+                <Route path="/driver/*" element={<Navigate to="/driver/home" replace />} />
+                <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
         </div>
         

@@ -10,10 +10,10 @@ const RidePopUp = (props) => {
             <h3 className='text-2xl font-semibold mb-5'>New Ride Available!</h3>
             <div className='flex items-center justify-between p-3 bg-yellow-400 rounded-lg mt-4'>
                 <div className='flex items-center gap-3 '>
-                    <img className='h-12 rounded-full object-cover w-12' src="https://i.pinimg.com/236x/af/26/28/af26280b0ca305be47df0b799ed1b12b.jpg" alt="" />
+                    <img className='h-12 rounded-full object-cover w-12' src="https://t4.ftcdn.net/jpg/07/17/84/71/360_F_717847111_5dqQRbCOnSKiALUJzWHkjozKZAEQdVsf.jpg" alt="" />
                     <h2 className='text-lg font-medium'> {props.ride?.user?.fullname?.firstname +" "+props.ride?.user?.fullname?.lastname} </h2>
                 </div>
-                <h5 className='text-lg font-semibold'>2.2 KM</h5>
+                {/* <h5 className='text-lg font-semibold'>2.2 KM</h5> */}
             </div>
 
             <div className='flex gap-2 justify-between flex-col items-center'>
@@ -36,7 +36,7 @@ const RidePopUp = (props) => {
                     <div className='flex items-center gap-5 p-3'>
                         <i className="ri-currency-line"></i>
                         <div>
-                            <h3 className='text-lg font-medium'>{props.ride?.fare}</h3>
+                            <h3 className='text-lg font-medium'>₹ {props.ride?.fare}</h3>
                             <p className='text-sm -mt-1 text-gray-600'>Cash</p>
                         </div>
                     </div>
@@ -48,7 +48,8 @@ const RidePopUp = (props) => {
                         props.confirmRide()
                     }}>Accept</button>
                     <button className='mt-2 w-full bg-gray-300 text-gray-700 font-semibold p-2 px-10 rounded-lg' onClick={ () => {
-                        props.setConfirmRidePopupPanel(false)
+                        props.setConfirmRidePopupPanel(false);
+                        props.setRidePopupPanel(false);
                     }}>Reject</button>
                 </div>
                 

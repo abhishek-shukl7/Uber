@@ -23,7 +23,15 @@ const DriverSignin = () => {
 
         if(response.status == 200 || response.status == 201 || response.status == 304){
             const data = response.data;
-            setDriver(data.driver);
+            // console.log('data',data);
+            // setDriver(data.driver);
+            setDriver({
+                email: data.driver.email,
+                isLoggedIn: true,
+                fullName: {
+                    firstName: data.driver.fullname.firstname,
+                    lastName: data.driver.fullname.lastname
+                }})
             localStorage.setItem('token',data.token);
             navigate('/driver/home');   
         }

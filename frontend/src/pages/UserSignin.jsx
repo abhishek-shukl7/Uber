@@ -10,7 +10,7 @@ const UserSignin = () => {
     const [password,setPassword] = useState('');
     const [userData,setUserData] = useState({});
 
-    const  { user,setUser } = useContext(UserDataContext);
+    const  { setUser } = useContext(UserDataContext);
     const navigate = useNavigate(); 
 
     const submitHandler = async (e) => {
@@ -23,8 +23,19 @@ const UserSignin = () => {
 
         if(response.status == 200 || response.status == 201 || response.status == 304){
             const data = response.data;
-            setUser(data.user);
+            // data.user.isLoggedIn = true;
+            // setUser(data.user);
+            // console.log(data.user);
+            // console.log(data.user.fullName);
+            setUser({
+                email: data.user.email,
+                isLoggedIn: true,
+                fullName: {
+                    firstName: data.user.fullname.firstname,
+                    lastName: data.user.fullname.lastname
+                }})
             localStorage.setItem('token',data.token);
+            console.log("User logged in successfully");
             navigate('/home');
         }
         setEmail('');

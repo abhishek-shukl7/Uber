@@ -29,7 +29,7 @@ const DriverProtectWrapper = ({ children }) => {
                 setIsLoading(false)
             }
         }).catch(error => {
-            console.log('API error',err)
+            console.log('API error',error)
             localStorage.removeItem('token')
             navigate('/driver/signin')
         })

@@ -7,9 +7,11 @@ const DriverDetails = () => {
     
     const [ totalRides , setTotalRides ] = useState(0);
     const [ totalEarned , settotalEarned ] = useState(0);
+    const [ totalDuration , setTotalDuration ] = useState(0);
+    const [ totalDistance , setTotalDistance ] = useState(0);
     useEffect(() => {
         async function getDriverData(){
-            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/driver-rides`,{},
+            const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/driver-details`,{},
                 {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`
@@ -21,11 +23,22 @@ const DriverDetails = () => {
                 // const data = await response.json();
                 setTotalRides(response.data.length)
                 let earned = 0;
+                let duration = 0;
+                let distance = 0;
                 response.data.forEach(ride => {
                     earned += ride.fare;
+                    duration += ride.duration;
+                    distance += ride.distance;
                 });
                 settotalEarned(earned)  
+                setTotalDuration((duration/60).toFixed(0))  
+                setTotalDistance((distance/1000).toFixed(0))  
                 return 
+            }else{
+                setTotalRides(0)
+                settotalEarned(0)  
+                setTotalDuration(0)  
+                setTotalDistance(0)  
             }
         }
         getDriverData();
@@ -38,7 +51,7 @@ const DriverDetails = () => {
         <div>
             <div className='flex items-center justify-between'>
                 <div className='flex items-center justify-start gap-3'>
-                    <img className='h-10 w-10 rounded-full object-cover' src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRdlMd7stpWUCmjpfRjUsQ72xSWikidbgaI1w&s" alt="" />
+                    <img className='h-10 w-10 rounded-full object-cover' src="https://t4.ftcdn.net/jpg/07/17/84/71/360_F_717847111_5dqQRbCOnSKiALUJzWHkjozKZAEQdVsf.jpg" alt="" />
                     <h4 className='text-lg font-medium capitalize'>{driver?.fullname?.firstname + " " + driver?.fullname?.lastname}</h4>
                 </div>
                 <div>
@@ -54,13 +67,14 @@ const DriverDetails = () => {
                 </div>
                 <div className='text-center'>
                     <i className="text-3xl mb-2 font-thin ri-speed-up-line"></i>
-                    <h5 className='text-lg font-medium'>10.2</h5>
-                    <p className='text-sm text-gray-600'>Hours Online</p>
+                    <h5 className='text-lg font-medium'>{totalDistance} Km</h5>
+                    <p className='text-sm text-gray-600'>Total Distance</p>
+                    
                 </div>
                 <div className='text-center'>
                     <i className="text-3xl mb-2 font-thin ri-booklet-line"></i>
-                    <h5 className='text-lg font-medium'>10.2</h5>
-                    <p className='text-sm text-gray-600'>Hours Online</p>
+                    <h5 className='text-lg font-medium'>{totalDuration} Mins</h5>
+                    <p className='text-sm text-gray-600'>Total Duration</p>
                 </div>
 
             </div>

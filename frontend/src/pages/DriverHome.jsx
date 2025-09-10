@@ -99,6 +99,7 @@ const DriverHome = () => {
                     <i className="text-lg font-medium ri-logout-box-r-line"></i>
                 </Link>         
             </div>
+            
             <div className='h-3/5'>
                 {/* <img className='h-full w-full object-cover' src="https://miro.medium.com/v2/resize:fit:1400/0*gwMx05pqII5hbfmX.gif" alt="" /> */}
                 <LiveTracking />
