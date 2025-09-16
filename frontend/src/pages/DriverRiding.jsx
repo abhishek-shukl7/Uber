@@ -3,7 +3,7 @@ import {Link,useLocation} from 'react-router-dom'
 import { useGSAP } from "@gsap/react";
 import gsap from 'gsap'
 
-import LiveTracking from "../components/LiveTracking";
+import LiveRiding from "../components/LiveRiding";
 import FinishRide from "../components/FinishRide";
 
 const DriverRiding = () => {
@@ -27,7 +27,14 @@ const DriverRiding = () => {
     }, [ finishRidePanel ])
 
     return (
+        
         <div className='h-screen relative flex flex-col justify-end'>
+            <div className='h-screen fixed w-screen top-0'>
+                <LiveRiding 
+                    origin={ride?.pickup}
+                    destination={ride?.destination}
+                />
+            </div>
             <div className='fixed p-6 top-0 flex items-center justify-between w-screen'>
                 <img className='w-16' src="https://upload.wikimedia.org/wikipedia/commons/c/cc/Uber_logo_2018.png" alt="" />
                 <Link to='/driver/home' className=' h-10 w-10 bg-white flex items-center justify-center rounded-full'>
@@ -48,10 +55,6 @@ const DriverRiding = () => {
                     ride={ride}
                     setFinishRidePanel={setFinishRidePanel}
                 />
-            </div>
-
-            <div className='h-screen fixed w-screen top-0 z-[-1]'>
-                <LiveTracking />
             </div>
 
         </div>

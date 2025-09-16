@@ -6,9 +6,9 @@ import axios from "axios";
 const FinishRide = (props) => {
 
     const navigate = useNavigate()
-
+    console.log('finish ride props',props);
     async function endRide(){
-        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/end-ride`,{ rideId: ride._id},{
+        const response = await axios.post(`${import.meta.env.VITE_BASE_URL}/rides/endRide`,{ rideId: props.ride._id},{
             headers : {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
@@ -61,8 +61,6 @@ const FinishRide = (props) => {
                     <button
                         onClick={endRide}
                         className='w-full mt-5 flex  text-lg justify-center bg-green-600 text-white font-semibold p-3 rounded-lg'>Finish Ride</button>
-
-
                 </div>
             </div>
         </div>

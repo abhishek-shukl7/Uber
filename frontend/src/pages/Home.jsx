@@ -242,7 +242,7 @@ const Home = () => {
             </div>
 
             <div className=' flex flex-col justify-end h-screen absolute top-0 w-full'>
-                <div className='h-[30%] p-6 bg-white relative'>
+                <div className='h-[33%] p-6 bg-white relative'>
                     <h5 ref={panelCloseRef} onClick={() => {
                         setPanelOpen(false)
                     }} className='absolute opacity-0 right-6 top-6 text-2xl'>

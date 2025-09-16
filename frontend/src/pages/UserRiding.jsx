@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from 'react-router-dom'
 import { useNavigate } from "react-router-dom";
 import { SocketContext } from "../context/SocketContext";
-import LiveTracking from '../components/LiveTracking';
+import LiveRiding from '../components/LiveRiding';
 
 const UserRiding = () => {
 
@@ -12,9 +12,12 @@ const UserRiding = () => {
     const navigate = useNavigate()
     const { socket } = useContext(SocketContext)
     // console.log('user riding',ride);
-    socket.on('ride-ended',() => {
-        navigate('/home')
-    })
+    useEffect(() => {
+        socket.on('ride-ended',(data) => {
+            console.log('ride ended',data)
+            navigate('/home')
+        })
+    }, []);
     return (
         <div className='h-screen'>
             <Link to='/home' className='fixed right-2 top-2 h-10 w-10 bg-white flex items-center justify-center rounded-full'>
@@ -22,7 +25,11 @@ const UserRiding = () => {
             </Link>
 
             <div className='h-1/2'>
-                <LiveTracking />
+                {/* <LiveTracking /> */}
+                <LiveRiding 
+                    origin={ride?.pickup}
+                    destination={ride?.destination}
+                />
             </div>
 
             <div className='h-1/2 p-4'>

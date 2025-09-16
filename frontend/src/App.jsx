@@ -19,11 +19,12 @@ import UserProtectWrapper from './pages/UserProtectWrapper'
 
 import AuthRedirect from './components/AuthRedirect.jsx';
 import AuthDriverRedirect from './components/AuthDriverRedirect.jsx';
-
+import GoogleMapsProvider from './context/GoogleMapsProvider'; 
 import 'remixicon/fonts/remixicon.css'
 const App = () => {
     return (
         <div>
+        <GoogleMapsProvider>
             <Routes>
 
                 <Route path='/'
@@ -98,6 +99,7 @@ const App = () => {
                 <Route path="/driver/*" element={<Navigate to="/driver/home" replace />} />
                 <Route path="*" element={<Navigate to="/" replace />} />
             </Routes>
+        </GoogleMapsProvider>
         </div>
         
     )

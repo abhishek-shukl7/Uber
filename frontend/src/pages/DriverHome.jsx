@@ -46,10 +46,17 @@ const DriverHome = () => {
         const locationInterval = setInterval(updateLocation,1000)
         updateLocation()
         socket.on('new-ride',(data) => {
-            console.log("Driver New Ride Request",data);
+            // console.log("Driver New Ride Request",data);
+            socket.emit('join-ride-room', { rideId: data._id });
             setRide(data)
             setRidePopupPanel(true)
         })
+        // console.log("ride data",ride);
+        socket.on('ride-booked', (rideId) => {
+            if (ride && rideId === ride._id) {
+                setRidePopupPanel(false);
+            }
+        });
     },[socket])
 
     
