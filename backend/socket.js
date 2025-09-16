@@ -22,6 +22,9 @@ function initializeSocket(server){
                 await driverModel.findByIdAndUpdate(userId, { socketId: socket.id });
             }
         });
+        socket.on('join-ride-room', ({ rideId }) => {
+            socket.join(rideId);
+        });
 
         socket.on('update-location-driver',async (data) => {
             const { userId, location } = data;

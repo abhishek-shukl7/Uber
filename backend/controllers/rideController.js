@@ -64,13 +64,18 @@ module.exports.confirmRide = async (req,res,next) => {
     const { rideId } = req.body;
 
     try{
-        const ride = await rideService.confirmRide({rideId, driver: req.driver});
-        await logModel.create({ logname: 'confirmRide', log: ride });
-        
+        const ride = await rideService.confirmRide({rideId, driver: req.driver});        
         sendMessageToSocketId(ride.user.socketId, {
             event: 'ride-confirmed',
             data: ride
         });
+
+        sendMessageToSocketId(rideId, {
+            event: 'ride-booked',
+            data: rideId
+        });
+
+
         return res.status(200).json(ride);
     }catch(err){
         console.log(err);
