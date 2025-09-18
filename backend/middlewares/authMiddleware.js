@@ -46,6 +46,7 @@ module.exports.checkUser = async (req,res,next) => {
 }
 
 module.exports.checkDriver = async (req,res,next) => {
+    console.log('middleware');
     const token = req.headers.authorization?.split(' ')[1];
     if(!token){
         return res.status(401).json({ message : 'Unauthorized token' });
@@ -62,12 +63,14 @@ module.exports.checkDriver = async (req,res,next) => {
         const driver = await redisClient.get(`auth:${result.decoded._id}`);
         if(driver){
             req.driver = JSON.parse(driver);
+            console.log('redis middleware end');
             return next();
         }
         try{
             const driver = await driverModel.findById(decoded._id);
             req.driver = driver;
             await redisClient.setEx(`auth:${driver._id}`,86400,JSON.stringify(driver));
+            console.log('db middleware end');
             return next();
 
         } catch(err){

@@ -38,6 +38,8 @@ router.post('/endRide',
     rideController.endRide
 );
 
+console.log('--- rideRoutes.js is being used for a request! ---');
+
 
 router.post('/driver-details',
     authMiddleware.checkDriver,
