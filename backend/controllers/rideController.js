@@ -132,11 +132,11 @@ module.exports.endRide = async (req,res,next) => {
 }
 
 module.exports.driverDetails = async (req,res,next) => {
-    const errors = validationResult(req);
+    // const errors = validationResult(req);
     
-    if(!errors.isEmpty()){  
-        return res.status(400).json({errors: errors.array() });  
-    }
+    // if(!errors.isEmpty()){  
+    //     return res.status(400).json({errors: errors.array() });  
+    // }
     try{
         const driverDetails = await rideService.driverDetails({driverId:req.driver._id});
         return res.status(200).json(driverDetails);
