@@ -4,6 +4,13 @@ const { body, query } = require('express-validator');
 const rideController = require('../controllers/rideController');
 const authMiddleware = require('../middlewares/authMiddleware');
 
+console.log('--- rideRoutes.js is being used for a request! ---');
+
+router.post('/driver-details',
+    authMiddleware.checkDriver,
+    rideController.driverDetails
+);
+
 router.get('/getFare',
     authMiddleware.checkUser,
     query('pickup').isString().isLength({min : 3}).withMessage('Invalid pickup address'),
@@ -38,11 +45,5 @@ router.post('/endRide',
     rideController.endRide
 );
 
-console.log('--- rideRoutes.js is being used for a request! ---');
 
-
-router.post('/driver-details',
-    authMiddleware.checkDriver,
-    rideController.driverDetails
-);
 module.exports = router;
