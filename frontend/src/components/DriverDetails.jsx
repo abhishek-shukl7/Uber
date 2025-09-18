@@ -18,20 +18,26 @@ const DriverDetails = () => {
                     }
                 }
             );
-            // console.log(response);
             if((response.status == 200 || response.status == 201 || response.status == 304) && response.data.length > 0){
                 // const data = await response.json();
-                setTotalRides(response.data.length)
+                setTotalRides(response.data.length);
                 let earned = 0;
                 let duration = 0;
                 let distance = 0;
                 response.data.forEach(ride => {
-                    earned += ride.fare;
-                    duration += ride.duration;
-                    distance += ride.distance;
+                    if(ride.fare > 0){
+                        earned += ride.fare;
+                    }
+                    if(ride.duration > 0){
+                        duration += ride.duration;
+                    }
+                    if(ride.distance > 0){
+                        distance += ride.distance;
+                    }
                 });
+                
                 settotalEarned(earned)  
-                setTotalDuration((duration/60).toFixed(0))  
+                setTotalDuration((duration/3600).toFixed(2))  
                 setTotalDistance((distance/1000).toFixed(0))  
                 return 
             }else{
@@ -73,7 +79,7 @@ const DriverDetails = () => {
                 </div>
                 <div className='text-center'>
                     <i className="text-3xl mb-2 font-thin ri-booklet-line"></i>
-                    <h5 className='text-lg font-medium'>{totalDuration} Mins</h5>
+                    <h5 className='text-lg font-medium'>{totalDuration} Hours</h5>
                     <p className='text-sm text-gray-600'>Total Duration</p>
                 </div>
 

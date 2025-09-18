@@ -4,7 +4,7 @@ import { DriverDataContext } from '../context/DriverContext.jsx';
 
 const AuthDriverRedirect = ({ children }) => {
   const { isLoggedIn } = useContext(DriverDataContext);
-  console.log("driver is logged in, redirecting to /home",isLoggedIn);
+  console.log("check driver login ",isLoggedIn);
   if (isLoggedIn) {
     return <Navigate to="/driver/home" replace/>;
   }
